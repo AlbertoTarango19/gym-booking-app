@@ -1,1 +1,54 @@
-<p>home works!</p>
+<main class="page-shell">
+  <div class="page-topbar">
+    <div class="page-topbar-header">
+      <div class="topbar-copy">
+        <span class="eyebrow">Sistema de Reservas de Gimnasio</span>
+        <h1>
+          Reserva tu <span>próxima clase</span> en segundos.
+        </h1>
+        <p>Explora el calendario de clases, revisa cupos en tiempo real y asegura tu lugar con un solo clic.</p>
+      </div>
+      <div class="theme-switch-wrapper">
+        <span class="theme-switch-label">Tema</span>
+        <button type="button" class="theme-switch" [class.dark-mode]="isDarkTheme" (click)="toggleTheme()" aria-label="Alternar tema">
+          <span class="theme-knob"></span>
+          <span class="theme-state">{{ isDarkTheme ? 'Oscuro' : 'Claro' }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <section class="content-grid">
+    <section class="classes-section">
+      <div class="section-header">
+        <div>
+          <h2>Clases disponibles</h2>
+          <p class="subtle-text">{{ bookings.length }} clases</p>
+        </div>
+      </div>
+
+      <div class="class-grid">
+        <article class="class-card" *ngFor="let booking of bookings; trackBy: trackByBooking">
+          <h3>{{ booking.className }}</h3>
+          <p class="instructor">con {{ booking.instructor }}</p>
+          <div class="card-meta">
+            <span>{{ booking.schedule }}</span>
+            <span class="capacity">{{ booking.availableSpots }} de {{ booking.totalSpots }} cupos</span>
+          </div>
+          <button class="detail-button">Ver detalle →</button>
+        </article>
+      </div>
+    </section>
+
+    <aside class="detail-panel">
+      <div class="search-box detail-search-box">
+        <input type="search" placeholder="Buscar clase o instructor..." />
+        <span class="search-icon">🔍</span>
+      </div>
+      <div class="empty-card">
+        <div class="empty-icon">📌</div>
+        <h2>Selecciona una clase</h2>
+        <p>Toca "Ver detalle" en cualquier tarjeta para revisar la información completa y reservar tu cupo.</p>
+      </div>
+    </aside>
+  </section>
+</main>
