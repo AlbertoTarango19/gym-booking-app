@@ -2,7 +2,8 @@ export interface Booking {
   id: number;
   className: string;
   instructor: string;
-  schedule: string; 
+  schedule: string;
   availableSpots: number;
   totalSpots: number;
+  description: string;
 }

@@ -22,33 +22,29 @@
       <div class="section-header">
         <div>
           <h2>Clases disponibles</h2>
-          <p class="subtle-text">{{ bookings.length }} clases</p>
+          <p class="subtle-text">{{ filteredBookings.length }} clases</p>
         </div>
       </div>
 
-      <div class="class-grid">
-        <article class="class-card" *ngFor="let booking of bookings; trackBy: trackByBooking">
-          <h3>{{ booking.className }}</h3>
-          <p class="instructor">con {{ booking.instructor }}</p>
-          <div class="card-meta">
-            <span>{{ booking.schedule }}</span>
-            <span class="capacity">{{ booking.availableSpots }} de {{ booking.totalSpots }} cupos</span>
-          </div>
-          <button class="detail-button">Ver detalle →</button>
-        </article>
-      </div>
+      <app-booking-list
+        [bookings]="filteredBookings"
+        [selectedBookingId]="selectedBooking?.id"
+        [loading]="loading"
+        (selectBooking)="selectBooking($event)">
+      </app-booking-list>
     </section>
 
     <aside class="detail-panel">
       <div class="search-box detail-search-box">
-        <input type="search" placeholder="Buscar clase o instructor..." />
+        <input type="search" placeholder="Buscar clase o instructor..." [(ngModel)]="searchTerm" />
         <span class="search-icon">🔍</span>
       </div>
-      <div class="empty-card">
-        <div class="empty-icon">📌</div>
-        <h2>Selecciona una clase</h2>
-        <p>Toca "Ver detalle" en cualquier tarjeta para revisar la información completa y reservar tu cupo.</p>
-      </div>
+
+      <app-booking-detail
+        [selectedBooking]="selectedBooking"
+        [reservationMessage]="reservationMessage"
+        (reserveBooking)="reserveBooking()">
+      </app-booking-detail>
     </aside>
   </section>
 </main>

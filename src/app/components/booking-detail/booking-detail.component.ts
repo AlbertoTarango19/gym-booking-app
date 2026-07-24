@@ -1,11 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Booking } from '../../models/booking.model';
 
 @Component({
   selector: 'app-booking-detail',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './booking-detail.component.html',
-  styleUrl: './booking-detail.component.scss'
+  styleUrls: ['./booking-detail.component.scss']
 })
 export class BookingDetailComponent {
+  @Input() selectedBooking?: Booking;
+  @Input() reservationMessage = '';
+  @Output() reserveBooking = new EventEmitter<void>();
 
+  onReserve(): void {
+    this.reserveBooking.emit();
+  }
 }

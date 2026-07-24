@@ -1,1 +1,21 @@
-<p>booking-list works!</p>
+<div class="class-grid">
+  <article
+    class="class-card"
+    *ngFor="let booking of bookings; trackBy: trackByBooking"
+    [class.selected]="selectedBookingId === booking.id"
+    (click)="onSelect(booking)">
+    <h3>{{ booking.className }}</h3>
+    <p class="instructor">con {{ booking.instructor }}</p>
+    <div class="card-meta">
+      <span>{{ booking.schedule }}</span>
+      <span class="capacity">{{ booking.availableSpots }} de {{ booking.totalSpots }} cupos</span>
+    </div>
+    <button class="detail-button" type="button" (click)="onSelect(booking); $event.stopPropagation()">Ver detalle →</button>
+  </article>
+  <div class="loading-placeholder" *ngIf="loading">
+    Cargando clases...
+  </div>
+  <div class="empty-placeholder" *ngIf="!loading && bookings.length === 0">
+    No hay clases disponibles.
+  </div>
+</div>

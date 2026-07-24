@@ -1,59 +1,72 @@
-# GymBookingApp
+# Gym Booking App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.26.
+Aplicación en Angular para reservar clases de gimnasio.
 
-## Development server
+## Instalación
 
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+1. Instalar dependencias:
 
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+2. Ejecutar la aplicación:
 
 ```bash
-ng generate --help
+npm start
 ```
 
-## Building
+3. Abrir en el navegador:
 
-To build the project run:
-
-```bash
-ng build
+```text
+http://localhost:4200
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Entorno
 
-## Running unit tests
+- Node.js: v20.18.0
+- npm: 10.8.2
+- Angular CLI: ^19.2.26
+- Angular: ^19.2.0
+- TypeScript: ~5.7.2
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Arquitectura de componentes
 
-```bash
-ng test
-```
+La aplicación usa componentes independientes y responsables por separado:
 
-## Running end-to-end tests
+- `AppComponent` / `HomeComponent`: controla el layout principal, el estado de la aplicación, la carga de datos, el filtrado y el tema.
+- `BookingListComponent`: muestra el listado de clases disponibles como tarjetas.
+- `BookingDetailComponent`: muestra el detalle de la clase seleccionada y expone el evento de reserva.
 
-For end-to-end (e2e) testing, run:
+### Comunicación entre componentes
 
-```bash
-ng e2e
-```
+Se usa comunicación padre-hijo con `@Input()` y `@Output()`:
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- `HomeComponent` pasa la lista filtrada de reservas y el ID de la clase seleccionada a `BookingListComponent`.
+- `BookingListComponent` emite `selectBooking` cuando el usuario selecciona una tarjeta.
+- `HomeComponent` pasa la clase seleccionada y el mensaje de confirmación a `BookingDetailComponent`.
+- `BookingDetailComponent` emite `reserveBooking` cuando el usuario solicita reservar.
 
-## Additional Resources
+Esta opción permite mantener las responsabilidades separadas y un flujo de datos claro.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Simulación de API
+
+El servicio `BookingService` se usa como un mock inyectable (`providedIn: 'root'`).
+
+- `getBookings()` retorna un `Observable<Booking[]>` con `of(...)` y un `delay(300)`.
+- `reserveBooking(id)` reduce `availableSpots` en la clase correspondiente y retorna el booking actualizado.
+
+No se usa un backend real, pero el servicio está tipado y simula comportamiento asíncrono similar a una llamada HTTP.
+
+## Funcionalidades implementadas
+
+- Listado de clases disponibles.
+- Búsqueda de clases por nombre, instructor u horario.
+- Vista de detalle de la clase seleccionada.
+- Reserva simulada con actualización de cupos.
+- Tema claro/oscuro.
+- Componentes standalone básicos.
+
+## Nota
+
+La aplicación ya compila correctamente. Existe una advertencia de presupuesto de tamaño CSS en `home.component.scss`, pero no impide la ejecución.

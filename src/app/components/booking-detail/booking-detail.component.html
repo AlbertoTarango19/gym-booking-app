@@ -1,1 +1,41 @@
-<p>booking-detail works!</p>
+<section *ngIf="selectedBooking; else emptyDetail" class="detail-card">
+  <div class="detail-card-header">
+    <div>
+      <p class="detail-label">Clase seleccionada</p>
+      <h2>{{ selectedBooking.className }}</h2>
+      <p class="detail-instructor">con {{ selectedBooking.instructor }}</p>
+    </div>
+    <span class="detail-badge">{{ selectedBooking.schedule }}</span>
+  </div>
+
+  <p class="detail-description">{{ selectedBooking.description }}</p>
+
+  <div class="detail-meta">
+    <div>
+      <p class="detail-meta-label">Cupos disponibles</p>
+      <p class="detail-meta-value">{{ selectedBooking.availableSpots }} de {{ selectedBooking.totalSpots }}</p>
+    </div>
+    <div>
+      <p class="detail-meta-label">Horario</p>
+      <p class="detail-meta-value">{{ selectedBooking.schedule }}</p>
+    </div>
+  </div>
+
+  <button
+    class="reserve-button"
+    type="button"
+    [disabled]="selectedBooking.availableSpots === 0"
+    (click)="onReserve()">
+    {{ selectedBooking.availableSpots === 0 ? 'Clase llena' : 'Reservar ahora' }}
+  </button>
+
+  <p class="reservation-message" *ngIf="reservationMessage">{{ reservationMessage }}</p>
+</section>
+
+<ng-template #emptyDetail>
+  <div class="empty-card">
+    <div class="empty-icon">📌</div>
+    <h2>Selecciona una clase</h2>
+    <p>Toca "Ver detalle" en cualquier tarjeta para revisar la información completa y reservar tu cupo.</p>
+  </div>
+</ng-template>
