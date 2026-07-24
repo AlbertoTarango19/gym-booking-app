@@ -70,3 +70,7 @@ No se usa un backend real, pero el servicio está tipado y simula comportamiento
 ## Nota
 
 La aplicación ya compila correctamente. Existe una advertencia de presupuesto de tamaño CSS en `home.component.scss`, pero no impide la ejecución.
+
+## Despliegue
+
+Se realizó un deploy del sistema web diseñado.
