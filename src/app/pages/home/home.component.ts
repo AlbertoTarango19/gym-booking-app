@@ -12,7 +12,7 @@ import { Booking } from '../../models/booking.model';
   imports: [CommonModule, FormsModule, BookingListComponent, BookingDetailComponent],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
   isDarkTheme = true;
