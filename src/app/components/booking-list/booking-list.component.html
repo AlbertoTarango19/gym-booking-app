@@ -1,17 +1,55 @@
 <div class="class-grid">
-  <article
-    class="class-card"
-    *ngFor="let booking of bookings; trackBy: trackByBooking"
-    [class.selected]="selectedBookingId === booking.id"
-    (click)="onSelect(booking)">
-    <h3>{{ booking.className }}</h3>
-    <p class="instructor">con {{ booking.instructor }}</p>
-    <div class="card-meta">
-      <span>{{ booking.schedule }}</span>
-      <span class="capacity">{{ booking.availableSpots }} de {{ booking.totalSpots }} cupos</span>
+  <ng-container *ngFor="let booking of bookings; trackBy: trackByBooking">
+    <article
+      class="class-card"
+      [class.selected]="selectedBookingId === booking.id"
+      (click)="onSelect(booking)">
+      <h3>{{ booking.className }}</h3>
+      <p class="instructor">con {{ booking.instructor }}</p>
+      <div class="card-meta">
+        <span>{{ booking.schedule }}</span>
+        <span class="capacity">{{ booking.availableSpots }} de {{ booking.totalSpots }} cupos</span>
+      </div>
+      <button class="detail-button" type="button" (click)="onSelect(booking); $event.stopPropagation()">Ver detalle →</button>
+    </article>
+
+    <div class="inline-detail-container" *ngIf="selectedBookingId === booking.id">
+      <section class="detail-card">
+        <div class="detail-card-header">
+          <div>
+            <p class="detail-label">Clase seleccionada</p>
+            <h2>{{ booking.className }}</h2>
+            <p class="detail-instructor">con {{ booking.instructor }}</p>
+          </div>
+          <span class="detail-badge">{{ booking.schedule }}</span>
+        </div>
+
+        <p class="detail-description">{{ booking.description }}</p>
+
+        <div class="detail-meta">
+          <div>
+            <p class="detail-meta-label">Cupos disponibles</p>
+            <p class="detail-meta-value">{{ booking.availableSpots }} de {{ booking.totalSpots }}</p>
+          </div>
+          <div>
+            <p class="detail-meta-label">Horario</p>
+            <p class="detail-meta-value">{{ booking.schedule }}</p>
+          </div>
+        </div>
+
+        <button
+          class="reserve-button"
+          type="button"
+          [disabled]="booking.availableSpots === 0"
+          (click)="onReserve(booking.id)">
+          {{ booking.availableSpots === 0 ? 'Clase llena' : 'Reservar ahora' }}
+        </button>
+
+        <p class="reservation-message" *ngIf="reservationMessage">{{ reservationMessage }}</p>
+      </section>
     </div>
-    <button class="detail-button" type="button" (click)="onSelect(booking); $event.stopPropagation()">Ver detalle →</button>
-  </article>
+  </ng-container>
+
   <div class="loading-placeholder" *ngIf="loading">
     Cargando clases...
   </div>

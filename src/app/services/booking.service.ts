@@ -6,7 +6,12 @@ import { Booking } from '../models/booking.model';
 @Injectable({
   providedIn: 'root'
 })
+/**
+ * BookingService provides methods to manage gym class bookings.
+ * It simulates fetching and reserving bookings with delays to mimic real-world API calls.
+ */
 export class BookingService {
+  // Dynamic list of bookings to simulate a backend database
   private bookings: Booking[] = [
     {
       id: 1,
@@ -70,15 +75,33 @@ export class BookingService {
       availableSpots: 5,
       totalSpots: 10,
       description: 'Circuito rápido de alta intensidad para elevar tu ritmo cardiaco y quemar grasa.'
+    },
+    {
+      id: 8,
+      className: 'Natación',
+      instructor: 'Laura Fernández',
+      schedule: 'Lunes · 19:00',
+      availableSpots: 1,
+      totalSpots: 4,
+      description: 'Clase de natación para mejorar la resistencia y la técnica en el agua.'
+    },
+    {
+      id: 9,
+      className: 'Kickboxing',
+      instructor: 'Ana López',
+      schedule: 'Sábado 12:00',
+      availableSpots: 0,
+      totalSpots: 7,
+      description: 'Clase de kickboxing para mejorar la coordinación y la fuerza.'
     }
   ];
 
   constructor() {}
-
+  // Retrieves the list of bookings with a simulated delay.
   getBookings(): Observable<Booking[]> {
     return of(this.bookings.map((booking) => ({ ...booking }))).pipe(delay(300));
   }
-
+  // Reserves a booking by its ID, simulating a backend update with a delay.
   reserveBooking(bookingId: number): Observable<Booking | undefined> {
     return of(bookingId).pipe(
       delay(450),

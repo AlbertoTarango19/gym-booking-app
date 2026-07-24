@@ -13,7 +13,9 @@ export class BookingListComponent {
   @Input() bookings: Booking[] = [];
   @Input() selectedBookingId?: number;
   @Input() loading = false;
+  @Input() reservationMessage = '';
   @Output() selectBooking = new EventEmitter<Booking>();
+  @Output() reserveBooking = new EventEmitter<number>();
 
   trackByBooking(_: number, booking: Booking): number {
     return booking.id;
@@ -21,5 +23,9 @@ export class BookingListComponent {
 
   onSelect(booking: Booking): void {
     this.selectBooking.emit(booking);
+  }
+
+  onReserve(id: number): void {
+    this.reserveBooking.emit(id);
   }
 }

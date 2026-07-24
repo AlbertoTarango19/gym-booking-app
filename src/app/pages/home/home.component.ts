@@ -23,11 +23,11 @@ export class HomeComponent implements OnInit {
   reservationMessage = '';
 
   constructor(private bookingService: BookingService) {}
-
+  // Initializes the component and loads the bookings when the component is created.
   ngOnInit(): void {
     this.loadBookings();
   }
-
+  // Loads the list of bookings from the BookingService and updates the component state.
   loadBookings(): void {
     this.loading = true;
     this.bookingService.getBookings().subscribe((bookings) => {
@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
       this.loading = false;
     });
   }
-
+  // Filters the bookings based on the search term entered by the user.
   get filteredBookings(): Booking[] {
     const term = this.searchTerm.trim().toLowerCase();
     if (!term) {
@@ -48,17 +48,17 @@ export class HomeComponent implements OnInit {
         booking.schedule.toLowerCase().includes(term)
     );
   }
-
+  // Handles the selection of a booking from the list and resets any reservation messages.
   selectBooking(booking: Booking): void {
     this.selectedBooking = booking;
     this.reservationMessage = '';
   }
-
+  // Reserves the selected booking by calling the BookingService and updates the component state based on the result.
   reserveBooking(): void {
     if (!this.selectedBooking) {
       return;
     }
-
+    // Call the BookingService to reserve the selected booking and handle the response.
     this.bookingService.reserveBooking(this.selectedBooking.id).subscribe((updated) => {
       if (!updated) {
         this.reservationMessage = 'No se pudo completar la reserva.';
@@ -70,17 +70,17 @@ export class HomeComponent implements OnInit {
       );
       this.selectedBooking = updated;
       this.reservationMessage = updated.availableSpots > 0
-        ? 'Reserva simulada con éxito. Tu cupo está apartado.'
+        ? 'Reserva realizada con éxito. Tu cupo está apartado.'
         : '¡Último cupo tomado! Revisa otra clase disponible.';
     });
   }
-
+  // Toggles the theme between dark and light modes and updates the document's class accordingly.
   toggleTheme(): void {
     this.isDarkTheme = !this.isDarkTheme;
     document.documentElement.classList.toggle('dark-theme', this.isDarkTheme);
     document.documentElement.classList.toggle('light-theme', !this.isDarkTheme);
   }
-
+  // Tracks bookings by their unique ID to optimize rendering in the booking list.
   trackByBooking(_: number, booking: Booking): number {
     return booking.id;
   }

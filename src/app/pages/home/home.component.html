@@ -1,6 +1,14 @@
 <main class="page-shell">
   <div class="page-topbar">
     <div class="page-topbar-header">
+        <!-- Branding and theme switcher -->
+      <div class="theme-switch-wrapper topbar-theme-above">
+        <span class="theme-switch-label">Tema</span>
+        <button type="button" class="theme-switch" [class.dark-mode]="isDarkTheme" (click)="toggleTheme()" aria-label="Alternar tema">
+          <span class="theme-knob"></span>
+          <span class="theme-state">{{ isDarkTheme ? 'Oscuro' : 'Claro' }}</span>
+        </button>
+      </div>
       <div class="topbar-copy">
         <span class="eyebrow">Sistema de Reservas de Gimnasio</span>
         <h1>
@@ -8,15 +16,9 @@
         </h1>
         <p>Explora el calendario de clases, revisa cupos en tiempo real y asegura tu lugar con un solo clic.</p>
       </div>
-      <div class="theme-switch-wrapper">
-        <span class="theme-switch-label">Tema</span>
-        <button type="button" class="theme-switch" [class.dark-mode]="isDarkTheme" (click)="toggleTheme()" aria-label="Alternar tema">
-          <span class="theme-knob"></span>
-          <span class="theme-state">{{ isDarkTheme ? 'Oscuro' : 'Claro' }}</span>
-        </button>
-      </div>
     </div>
   </div>
+  <!-- Main content area -->
   <section class="content-grid">
     <section class="classes-section">
       <div class="section-header">
@@ -25,21 +27,28 @@
           <p class="subtle-text">{{ filteredBookings.length }} clases</p>
         </div>
       </div>
-
-      <app-booking-list
-        [bookings]="filteredBookings"
-        [selectedBookingId]="selectedBooking?.id"
-        [loading]="loading"
-        (selectBooking)="selectBooking($event)">
-      </app-booking-list>
+      <!-- Search box for filtering classes -->
+        <div class="search-box top-search">
+          <input type="search" placeholder="Buscar clase o instructor..." [(ngModel)]="searchTerm" />
+          <span class="search-icon">🔍</span>
+        </div>
+        <!-- Booking list -->
+        <app-booking-list
+          [bookings]="filteredBookings"
+          [selectedBookingId]="selectedBooking?.id"
+          [loading]="loading"
+          [reservationMessage]="reservationMessage"
+          (selectBooking)="selectBooking($event)"
+          (reserveBooking)="reserveBooking()">
+        </app-booking-list>
     </section>
-
+    <!-- Detail panel -->
     <aside class="detail-panel">
       <div class="search-box detail-search-box">
         <input type="search" placeholder="Buscar clase o instructor..." [(ngModel)]="searchTerm" />
         <span class="search-icon">🔍</span>
       </div>
-
+      <!-- Booking detail -->
       <app-booking-detail
         [selectedBooking]="selectedBooking"
         [reservationMessage]="reservationMessage"
